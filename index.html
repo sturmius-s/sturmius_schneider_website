@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sturmius Schneider</title>
+<meta name="description" content="Sturmius Schneider — mathematician in quantitative finance at DWS Group (Xtrackers/ETFs), Frankfurt am Main. Background in risk methodology, mathematics, and software.">
+<meta property="og:title" content="Sturmius Schneider">
+<meta property="og:description" content="Sturmius Schneider — mathematician in quantitative finance at DWS Group (Xtrackers/ETFs), Frankfurt am Main. Background in risk methodology, mathematics, and software.">
+<meta property="og:image" content="https://sturmiusschneider.com/Sturmius_Schneider_2023.jpg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231D4E89'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='64' fill='%23F5F2EB' text-anchor='middle'%3E%E2%88%91%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -19,6 +24,8 @@
     --serif: 'DM Serif Display', Georgia, serif;
     --mono: 'DM Mono', monospace;
     --sans: 'DM Sans', sans-serif;
+    /* shared page-edge spacing — redefined once per breakpoint below */
+    --pad-x: 4rem;
   }
 
   body {
@@ -28,13 +35,15 @@
     font-weight: 300;
     line-height: 1.7;
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
   /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
-    padding: 1.2rem 4rem;
+    gap: 1.5rem;
+    padding: 1.2rem var(--pad-x);
     background: rgba(245,242,235,0.85);
     backdrop-filter: blur(8px);
     border-bottom: 0.5px solid var(--border);
@@ -45,11 +54,20 @@
     font-size: 13px;
     letter-spacing: 0.05em;
     color: var(--muted);
+    flex-shrink: 0;
   }
 
   .nav-links {
     display: flex; gap: 2.5rem; list-style: none;
+    min-width: 0;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
+
+  .nav-links::-webkit-scrollbar { display: none; }
+
+  .nav-links a { white-space: nowrap; }
 
   .nav-links a {
     font-size: 13px;
@@ -64,8 +82,29 @@
 
   /* HERO */
   .hero {
-    padding: 10rem 4rem 6rem;
-    max-width: 900px;
+    padding: 10rem var(--pad-x) 6rem;
+    max-width: 1100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+
+  .hero-text { max-width: 640px; }
+
+  .hero-photo {
+    width: 260px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: top center;
+    border: 0.5px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 800px) {
+    .hero { flex-direction: column-reverse; align-items: flex-start; gap: 2rem; padding-top: 7rem; }
+    .hero-text { width: 100%; }
+    .hero-photo { width: 180px; }
   }
 
   .hero-tag {
@@ -139,12 +178,12 @@
   hr.section-div {
     border: none;
     border-top: 0.5px solid var(--border);
-    margin: 0 4rem;
+    margin: 0 var(--pad-x);
   }
 
   /* SECTION */
   section {
-    padding: 5rem 4rem;
+    padding: 5rem var(--pad-x);
     max-width: 900px;
   }
 
@@ -327,9 +366,11 @@
 
   /* FOOTER */
   footer {
-    padding: 2rem 4rem;
+    padding: 2rem var(--pad-x);
     border-top: 0.5px solid var(--border);
     display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .footer-mono {
@@ -337,6 +378,61 @@
     font-size: 11px;
     color: var(--muted);
     letter-spacing: 0.04em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    :root { --pad-x: 1.5rem; }
+
+    .nav-links {
+      gap: 1.5rem;
+      mask-image: linear-gradient(to right, black calc(100% - 20px), transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, black calc(100% - 20px), transparent 100%);
+    }
+    .nav-links a { font-size: 12px; }
+
+    h1 { font-size: clamp(2.75rem, 12vw, 4.5rem); }
+
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+    .timeline-item { grid-template-columns: 1fr; gap: 0.4rem; }
+    .timeline-date { padding-top: 0; }
+
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+
+    .contact-row { flex-direction: column; gap: 2rem; }
+    .contact-text { font-size: 1.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding-top: 6rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+
+  /* FORMULA WATERMARK — behind hero + about, faded at the edges */
+  .formula-wrap { position: relative; }
+  .formula-wrap > * { position: relative; z-index: 1; }
+
+  .formula-bg {
+    position: absolute; inset: 0; z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    font-size: 16px; /* base unit — formula sizes below are relative to this */
+    mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, black 40%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, black 40%, transparent 85%);
+  }
+
+  .formula-bg math {
+    position: absolute;
+    font-family: 'Cambria Math', 'STIX Two Math', serif;
+    color: var(--ink);
+    opacity: 0.1;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  @media (max-width: 600px) {
+    .formula-bg { font-size: 12px; }
   }
 
   /* SCROLL ANIMATE */
@@ -359,34 +455,40 @@
   <ul class="nav-links">
     <li><a href="#about">about</a></li>
     <li><a href="#experience">experience</a></li>
+    <li><a href="#education">education</a></li>
     <li><a href="#skills">skills</a></li>
     <li><a href="#contact">contact</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
-<div class="hero fade-in visible">
-  <p class="hero-tag">mathematician · coder · finance</p>
-  <h1>Sturmius<br><em>Schneider</em></h1>
-  <p class="hero-desc">I work at the intersection of mathematics, software, and financial systems — turning abstract structures into concrete tools.</p>
-  <div class="hero-links">
-    <a href="https://github.com/sturmius-s" class="btn btn-fill" target="_blank">github ↗</a>
-    <a href="#contact" class="btn">get in touch</a>
-    <a href="#" class="btn">download cv</a>
+<!-- HERO + ABOUT (share one formula watermark cluster behind them) -->
+<div class="formula-wrap">
+  <div class="formula-bg" id="formula-cluster" aria-hidden="true"></div>
+
+  <!-- HERO -->
+  <div class="hero fade-in visible">
+    <div class="hero-text">
+      <p class="hero-tag">mathematician · coder · finance</p>
+      <h1>Sturmius<br><em>Schneider</em></h1>
+      <p class="hero-desc">I work at the intersection of mathematics, software, and financial systems — turning abstract structures into concrete tools.</p>
+      <div class="hero-links">
+        <a href="https://github.com/sturmius-s" class="btn btn-fill" target="_blank">github ↗</a>
+      </div>
+    </div>
+    <img class="hero-photo" src="Sturmius_Schneider_2023.jpg" alt="Sturmius Schneider">
   </div>
-</div>
 
-<hr class="section-div">
+  <hr class="section-div">
 
-<!-- ABOUT -->
-<section id="about" class="fade-in">
+  <!-- ABOUT -->
+  <section id="about" class="fade-in">
   <p class="section-label">01 — About</p>
   <h2>Numbers, code,<br>and markets.</h2>
   <div class="about-grid">
     <p class="about-text">
       Trained in mathematics with a deep interest in how quantitative thinking applies to the real world. I enjoy building rigorous, elegant solutions — whether that's a formal proof, a financial model, or a piece of software that does exactly what it should.
       <br><br>
-      Currently based in [your city]. Open to collaborations at the intersection of finance, data science, and software engineering.
+      Currently based in Frankfurt am Main, Germany. Open to collaborations at the intersection of finance, data science, and software engineering.
     </p>
     <div class="interests">
       <div class="interest-item">
@@ -412,7 +514,8 @@
       </div>
     </div>
   </div>
-</section>
+  </section>
+</div>
 
 <hr class="section-div">
 
@@ -422,27 +525,55 @@
   <h2>Where I've been.</h2>
   <div class="timeline">
     <div class="timeline-item">
-      <div class="timeline-date">2023 — present</div>
+      <div class="timeline-date">Jul 2023 — Present</div>
       <div>
-        <p class="timeline-role">Role Title</p>
-        <p class="timeline-org">Organisation / Company</p>
-        <p class="timeline-desc">Brief description of what you do — focus on quantitative or technical impact. Replace this with your actual experience.</p>
+        <p class="timeline-role">Vice President, Senior Product Specialist (Xtrackers)</p>
+        <p class="timeline-org">DWS Group</p>
       </div>
     </div>
     <div class="timeline-item">
-      <div class="timeline-date">2021 — 2023</div>
+      <div class="timeline-date">Jul 2021 — Jun 2023</div>
       <div>
-        <p class="timeline-role">Previous Role</p>
-        <p class="timeline-org">Organisation / Company</p>
-        <p class="timeline-desc">What you built, modelled, or contributed. One to two sentences works well here.</p>
+        <p class="timeline-role">Product Specialist (Xtrackers)</p>
+        <p class="timeline-org">DWS Group</p>
       </div>
     </div>
     <div class="timeline-item">
-      <div class="timeline-date">2018 — 2021</div>
+      <div class="timeline-date">Apr 2021 — Jun 2021</div>
       <div>
-        <p class="timeline-role">BSc / MSc Mathematics</p>
-        <p class="timeline-org">Your University</p>
-        <p class="timeline-desc">Thesis topic or key focus area. Mention any relevant specialisations like probability, statistics, or financial mathematics.</p>
+        <p class="timeline-role">Assistant Vice President, Risk Methodology</p>
+        <p class="timeline-org">Deutsche Bank</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-div">
+
+<!-- EDUCATION -->
+<section id="education" class="fade-in">
+  <p class="section-label">03 — Education</p>
+  <h2>Where it started.</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">2016 — 2018</div>
+      <div>
+        <p class="timeline-role">M.Sc. Mathematics</p>
+        <p class="timeline-org">Julius-Maximilians-Universität Würzburg</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2016 — 2017</div>
+      <div>
+        <p class="timeline-role">Mathematics, study abroad</p>
+        <p class="timeline-org">The University of Texas at Austin</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2013 — 2016</div>
+      <div>
+        <p class="timeline-role">B.Sc. Mathematics</p>
+        <p class="timeline-org">Julius-Maximilians-Universität Würzburg</p>
       </div>
     </div>
   </div>
@@ -452,7 +583,7 @@
 
 <!-- SKILLS -->
 <section id="skills" class="fade-in">
-  <p class="section-label">03 — Skills</p>
+  <p class="section-label">04 — Skills</p>
   <h2>Tools of the trade.</h2>
   <div class="skills-grid">
     <div class="skill-card">
@@ -481,6 +612,8 @@
         <span class="tag">Derivatives</span>
         <span class="tag">Risk</span>
         <span class="tag">Bloomberg</span>
+        <span class="tag">ETFs</span>
+        <span class="tag">Risk modelling</span>
       </div>
     </div>
     <div class="skill-card">
@@ -506,7 +639,6 @@
       <div class="skill-tags">
         <span class="tag">German</span>
         <span class="tag">English</span>
-        <span class="tag">+ other?</span>
       </div>
     </div>
   </div>
@@ -516,13 +648,12 @@
 
 <!-- CONTACT -->
 <section id="contact" class="fade-in">
-  <p class="section-label">04 — Contact</p>
+  <p class="section-label">05 — Contact</p>
   <div class="contact-row">
     <p class="contact-text">Let's build<br>something<br>rigorous.</p>
     <div class="contact-links">
       <a href="https://github.com/sturmius-s" class="contact-link" target="_blank">github.com/sturmius-s</a>
-      <a href="mailto:hello@sturmiusschneider.com" class="contact-link">hello@sturmiusschneider.com</a>
-      <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank">linkedin</a>
+      <a href="https://www.linkedin.com/in/sturmiusschneider-776741143" class="contact-link" target="_blank">linkedin</a>
     </div>
   </div>
 </section>
@@ -538,6 +669,35 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
   }, { threshold: 0.1 });
   els.forEach(el => obs.observe(el));
+</script>
+
+<!-- background watermark: how attention/softmax/cross-entropy/gradient-descent are written, rendered as real math via native MathML (no KaTeX/CDN needed) -->
+<script>
+  const formulas = [
+    '<mrow><mi>Attention</mi><mo>(</mo><mi>Q</mi><mo>,</mo><mi>K</mi><mo>,</mo><mi>V</mi><mo>)</mo><mo>=</mo><mi>softmax</mi><mrow><mo>(</mo><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mi>T</mi></msup></mrow><msqrt><msub><mi>d</mi><mi>k</mi></msub></msqrt></mfrac><mo>)</mo></mrow><mi>V</mi></mrow>',
+    '<mrow><mi>softmax</mi><mo>(</mo><msub><mi>z</mi><mi>i</mi></msub><mo>)</mo><mo>=</mo><mfrac><msup><mi>e</mi><msub><mi>z</mi><mi>i</mi></msub></msup><mrow><munder><mo>&#8721;</mo><mi>j</mi></munder><msup><mi>e</mi><msub><mi>z</mi><mi>j</mi></msub></msup></mrow></mfrac></mrow>',
+    '<mrow><mi>P</mi><mo>(</mo><msub><mi>x</mi><mi>t</mi></msub><mo>|</mo><msub><mi>x</mi><mrow><mo>&lt;</mo><mi>t</mi></mrow></msub><mo>)</mo><mo>=</mo><mi>softmax</mi><mo>(</mo><mi>W</mi><mo>&#183;</mo><msub><mi>h</mi><mi>t</mi></msub><mo>+</mo><mi>b</mi><mo>)</mo></mrow>',
+    '<mrow><mi>L</mi><mo>=</mo><mo>&#8722;</mo><munder><mo>&#8721;</mo><mi>i</mi></munder><msub><mi>y</mi><mi>i</mi></msub><mi>log</mi><mo>(</mo><msub><mover><mi>y</mi><mo>^</mo></mover><mi>i</mi></msub><mo>)</mo></mrow>',
+    '<mrow><mi>&#952;</mi><mo>&#8592;</mo><mi>&#952;</mi><mo>&#8722;</mo><mi>&#951;</mi><mo>&#8711;</mo><mi>L</mi><mo>(</mo><mi>&#952;</mi><mo>)</mo></mrow>',
+  ];
+
+  const cluster = document.getElementById('formula-cluster');
+  if (cluster) {
+    const positions = [
+      { t: 6,  l: 8,  s: 1.5 }, { t: 14, l: 58, s: 1.2 }, { t: 26, l: 32, s: 1.9 }, { t: 22, l: 78, s: 1.0 },
+      { t: 40, l: 10, s: 1.3 }, { t: 46, l: 70, s: 1.6 }, { t: 58, l: 40, s: 1.1 }, { t: 66, l: 14, s: 1.4 },
+      { t: 70, l: 62, s: 1.2 }, { t: 80, l: 35, s: 1.5 },
+    ];
+    positions.forEach((p, idx) => {
+      const m = document.createElementNS('http://www.w3.org/1998/Math/MathML', 'math');
+      m.innerHTML = formulas[idx % formulas.length];
+      m.style.top = p.t + '%';
+      m.style.left = p.l + '%';
+      m.style.fontSize = p.s + 'em';
+      m.style.transform = 'rotate(' + ((idx % 2 === 0 ? -1 : 1) * (2 + idx)) + 'deg)';
+      cluster.appendChild(m);
+    });
+  }
 </script>
 </body>
 </html>
